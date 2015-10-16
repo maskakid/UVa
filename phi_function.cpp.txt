@@ -1,0 +1,34 @@
+#include <stdio.h>
+#define SZ 1000010
+
+int prime_table[SZ];
+int euler_table[SZ];
+int solution_table[SZ];
+
+void phi_function()
+{
+    int i, j;
+    for (i = 1; i < SZ; i++)
+        euler_table[i] = i;
+    for (i = 2; i < SZ; i++)
+    {
+        if (!prime_table[i])
+        {
+            for (j = i; j < SZ; j += i)
+            {
+                prime_table[j] = j > i;
+                euler_table[j] = euler_table[j] / i * (i-1);
+            }
+        }
+        solution_table[i] = solution_table[i-1] + i - euler_table[i];
+    }
+}
+
+int main()
+{
+    phi_function();
+    int n;
+    while(scanf("%d",&n) and n>0)
+        printf("%d\n",euler_table[n]);
+    return 0;
+}
